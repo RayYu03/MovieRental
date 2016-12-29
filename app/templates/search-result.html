@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}搜索结果{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1> 搜索结果 </h1>
+</div>
+<div class="container">
+  <ul class="posts">
+    {% if movies %}
+      {% for movie in movies %}
+      <div class="post-author">
+        <a href="{{ url_for('.movie', id=movie.id) }}">
+        <h2>{{ movie.title }}</h2>
+        </a>
+      </div>
+      <hr>
+      {% endfor %}
+    {% else %}
+      <h2>抱歉，影片库暂无该影片！</h2>
+    {% endif %}
+</ul>
+</div>
+
+<style media="screen">
+  div.center {
+  width: auto;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  }
+</style>
+  {% if pagination and movies %}
+    <div class="pagination center" >
+        {{ macros.pagination_widget(pagination, '.index') }}
+    </div>
+  {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}

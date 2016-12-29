@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}主页{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>您好, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}新用户{% endif %}!
+
+    </h1>
+</div>
+
+<div class="container">
+  <ul class="posts">
+    {% for movie in movies %}
+    <div class="post-author">
+      <a href="{{ url_for('.movie', id=movie.id) }}">
+      <h2>{{ movie.title }}</h2>
+      </a>
+    </div>
+    <div class="post-body">
+      <p><small>类型:</small> {{ movie.genres }}</p>
+      <p><small>导演:</small> {{ movie.directors }}</p>
+      <p><small>主演:</small> {{ movie.casts }}</p>
+      <p><small>评分:</small> {{ movie.rating }}</p>
+    </div>
+    <hr>
+  {% endfor %}
+</ul>
+</div>
+
+<style media="screen">
+  div.center {
+  width: auto;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  }
+</style>
+
+{% if pagination %}
+  <div class="pagination center" >
+      {{ macros.pagination_widget(pagination, '.index') }}
+  </div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}

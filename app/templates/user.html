@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+  <img class="img-rounded profile-thumbnail" style="width: 250px; height: 250px;" src="{{ user.avatar_url }}">
+    <div class="profile-header">
+        <h1>
+          {{ user.username }}
+        </h1>
+        <h2>
+          <small>当前借阅数量 : </small> {{ max_borrow_number - user.amount }}
+          <small>剩余借阅数量 : </small> {{ user.amount }}
+        </h2>
+    </div>
+</div>
+<hr>
+{% if movies %}
+  {% include '_borrows.html' %}
+{% else %}
+  <h3> 您还未借阅过影片！ </h3>
+{% endif %}
+{% endblock %}
