@@ -3,6 +3,9 @@ from . import main
 
 @main.app_errorhandler(403)
 def forbidden(e):
+    """
+    处理 403 错误
+    """
     if request.accept_mimetypes.accept_json and \
             not request.accept_mimetypes.accept_html:
         response = jsonify({'error': 'forbidden'})
@@ -13,6 +16,9 @@ def forbidden(e):
 
 @main.app_errorhandler(404)
 def page_not_found(e):
+    """
+    处理 404 错误
+    """
     if request.accept_mimetypes.accept_json and \
             not request.accept_mimetypes.accept_html:
         response = jsonify({'error': 'not found'})
@@ -23,6 +29,9 @@ def page_not_found(e):
 
 @main.app_errorhandler(500)
 def internal_server_error(e):
+    """
+    处理 500 错误
+    """
     if request.accept_mimetypes.accept_json and \
             not request.accept_mimetypes.accept_html:
         response = jsonify({'error': 'internal server error'})

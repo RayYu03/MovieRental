@@ -10,6 +10,9 @@ from .forms import EditMovieForm, AddMovieForm, SearchForm
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
+    """
+    根地址
+    """
     page = request.args.get('page',1,type=int)
     pagination = Movie.query.order_by(Movie.rating.desc()).paginate(
             page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
@@ -20,6 +23,9 @@ def index():
 @login_required
 @main.route('/user/<username>')
 def user(username):
+    """
+    用户个人主页
+    """
     max_borrow_number = current_app.config['MAX_BORROWED_NUMBER']
     user = User.query.filter_by(username=username).first()
     movies = user.borrowed_movies
@@ -32,6 +38,9 @@ def user(username):
 @login_required
 @main.route('/movie/<id>')
 def movie(id):
+    """
+    电影主页
+    """
     movie = Movie.query.filter_by(id=id).first()
     if movie is None:
         abort(404)
@@ -41,6 +50,9 @@ def movie(id):
 @login_required
 @permission_required(Permission.BORROW)
 def borrow(id):
+    """
+    借阅电影
+    """
     movie = Movie.query.filter_by(id=id).first()
     if movie is None:
         flash('该影片不存在！')
@@ -56,6 +68,9 @@ def borrow(id):
 @login_required
 @permission_required(Permission.RETURN)
 def return_movie(id):
+    """
+    归还电影
+    """
     movie = Movie.query.filter_by(id=id).first()
     if movie is None:
         flash('该影片不存在！')
@@ -71,6 +86,9 @@ def return_movie(id):
 @login_required
 @admin_required
 def edit_movie(id):
+    """
+    修改电影信息
+    """
     movie = Movie.query.get_or_404(id)
     form = EditMovieForm(movie=movie)
     if form.validate_on_submit():
@@ -103,6 +121,9 @@ def edit_movie(id):
 @main.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
+    """
+    搜索电影
+    """
     form = SearchForm()
     if form.validate_on_submit():
         page = request.args.get('page',1,type=int)
@@ -117,6 +138,9 @@ def search():
 @login_required
 @admin_required
 def add_movie():
+    """
+    增加电影
+    """
     form = AddMovieForm()
     if form.validate_on_submit():
         movie = Movie(title = form.title.data,
@@ -139,6 +163,9 @@ def add_movie():
 @login_required
 @admin_required
 def delete_movie(id):
+    """
+    删除电影
+    """
     movie = Movie.query.filter_by(id=id).first()
     if movie is None:
         flash('该影片不存在！')

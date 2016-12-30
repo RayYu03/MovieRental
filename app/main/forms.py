@@ -6,6 +6,9 @@ from wtforms.validators import Required, Length
 
 
 class EditMovieForm(FlaskForm):
+    """
+    修改电影信息表单
+    """
     title = StringField('原名', validators=[Length(0,64)])
     original_title = StringField('又名', validators=[Length(0,64)])
     directors = StringField('导演', validators=[Length(0,64)])
@@ -21,6 +24,9 @@ class EditMovieForm(FlaskForm):
 
 
 class AddMovieForm(FlaskForm):
+    """
+    增加电影信息表单
+    """
     title = StringField('原名', validators=[Length(0,64)])
     original_title = StringField('又名', validators=[Length(0,64)])
     directors = StringField('导演', validators=[Length(0,64)])
@@ -35,5 +41,8 @@ class AddMovieForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
+    """
+    搜索电影表单
+    """
     search = StringField('影片名', validators=[Length(0,64)])
     submit = SubmitField('提交')

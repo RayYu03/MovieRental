@@ -8,6 +8,14 @@ from .errors import forbidden
 
 @api.route('/movies/')
 def get_movies():
+    """
+    ..  note:: 获取所有 movies
+
+        1. 获取数据库中的所有 movies 数据
+        2. 分页
+        3. 响应格式为 json
+
+    """
     count = current_app.config['FLASKY_JSONS_PER_PAGE']
     page = request.args.get('page', 1, type=int)
     pagination = Movie.query.paginate(
@@ -31,5 +39,8 @@ def get_movies():
 
 @api.route('/movies/<int:id>')
 def get_movie(id):
+    """
+    ..  note:: 获取指定的 movie 资源, 响应格式为 json
+    """
     movie = Movie.query.get_or_404(id)
     return jsonify(movie.to_json())

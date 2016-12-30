@@ -13,6 +13,26 @@ eng = create_engine('sqlite:///data-dev.sqlite')
 Base = declarative_base()
 
 class Movie(Base):
+    """
+
+    ====================     =================
+    列名                      说明
+    ====================     =================
+    id                       序号
+    title                    电影名
+    original_title           借阅时间
+    directors                导演
+    casts                    主演
+    genres                   类型
+    year                     上映年份
+    rating                   评分
+    images                   封面图片
+    alt                      豆瓣链接
+    amount                   库存
+    counts                   借阅次数
+    ====================     =================
+
+    """
     __tablename__ = 'movies'
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(64), unique=True, index=True)
@@ -31,6 +51,12 @@ Session = sessionmaker(bind=eng)
 session = Session()
 
 def start():
+    """
+    ..  note:: 获取数据
+
+        使用 豆瓣电影 TOP250 API 初始化数据。
+
+    """
     for i in range(13):
         api = 'https://api.douban.com/v2/movie/top250?start={}'.format(20*i)
         res = requests.get(api)
