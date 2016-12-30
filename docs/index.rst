@@ -3,8 +3,6 @@ Movie Rental 文档
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
-
 
 References - 详细文档
 ---------------------------
