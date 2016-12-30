@@ -2,7 +2,7 @@
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin,current_user
-from flask import current_app
+from flask import current_app, request, url_for
 from . import login_manager
 from . import db
 from datetime import datetime
@@ -72,6 +72,22 @@ class Movie(db.Model):
                             backref=db.backref('movie',lazy='joined'),
                             lazy='dynamic',cascade='all, delete-orphan')
 
+    def to_json(self):
+        json_movie = {
+            'title': self.title,
+            'original_title': self.original_title,
+            'directors': self.directors.split(' / '),
+            'casts': self.casts.split(' / '),
+            'genres': self.genres.split(' / '),
+            'year': self.year,
+            'rating': self.rating,
+            'images': self.images,
+            'api': url_for('api.get_movie', id=self.id, _external=True),
+            'douban_alt': self.alt,
+            'alt': url_for('main.movie', id=self.id, _external=True),
+        }
+        return json_movie
+
     def __repr__(self):
         return '<Movie %r>' % self.title
 
@@ -139,6 +155,21 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+
+    def generate_auth_token(self, expriation):
+        s = Serializer(current_app.config['SECRET_KEY'],
+                        expires_in=expriation)
+        return s.dumps({'id': self.id})
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return None
+        return User.query.get(data['id'])
 
     """
         计算密码散列值的函数通过名为 password 的只写属性实现。设定这个属性的值时,赋值

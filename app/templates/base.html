@@ -4,19 +4,11 @@
 
 {% block head %}
 {{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='home-styles.css') }}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='logo.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='logo.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-styles.css') }}">
 
-<style media="screen">
-  .center {
-  width: auto;
-  display: table;
-  margin-left: auto;
-  margin-right: auto;
-  }
-</style>
 <header class="header">
   <ul>
     <li class="cor-1"></li>
@@ -41,7 +33,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('main.index') }}"> <span class="glyphicon glyphicon-home"/> 主页 </a></li>
                 {% if current_user.is_administrator() %}
-                <li><a href="{{ url_for('.add_movie') }}"> <span class="glyphicon glyphicon-plus-sign"/> 增加 </a></li>
+                <li><a href="{{ url_for('main.add_movie') }}"> <span class="glyphicon glyphicon-plus-sign"/> 增加 </a></li>
                 {% endif %}
                 <li><a href="{{ url_for('main.search') }}"> <span class="glyphicon glyphicon-search"/> 搜索 </a></li>
             </ul>
