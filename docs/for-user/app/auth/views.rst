@@ -1,4 +1,4 @@
-View - 用户认证表单
+View - 用户认证视图
 =====================
 
 ..  automodule:: app.auth.views
